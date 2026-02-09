@@ -41,7 +41,7 @@ const DEGREES_PER_BASE = 0.005208333;
 
 // HD wheel offset from tropical zodiac
 // Calibrated: 58.93° gives correct 61.5.4.5.2 for Jan 14, 1983 9:24 PM UTC
-const HD_OFFSET = 58.93;
+const HD_OFFSET = 58;
 
 function longitudeToGate(longitude) {
   // Normalize
