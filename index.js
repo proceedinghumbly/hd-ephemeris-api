@@ -88,11 +88,12 @@ function dateToJulian(date) {
 }
 
 // Find when Sun was at target longitude (for design calculation)
-function findSunAtLongitude(targetLon, startJd, direction = -1) {
+function findSunAtLongitude(targetLon, startJd) {
   targetLon = ((targetLon % 360) + 360) % 360;
   const flags = c.SEFLG_SWIEPH | c.SEFLG_SPEED;
   
-  let jd = startJd;
+  // Start ~88 days before birth (approximate)
+  let jd = startJd - 88;
   let iterations = 0;
   
   while (iterations < 200) {
@@ -107,8 +108,8 @@ function findSunAtLongitude(targetLon, startJd, direction = -1) {
       return jd;
     }
     
-    // Sun moves ~1°/day
-    jd += diff * direction;
+    // Sun moves ~1°/day, adjust toward target
+    jd += diff;
     iterations++;
   }
   
@@ -128,7 +129,7 @@ function calculateChart(birthDate) {
   const designSunLon = ((birthSunLon - 88) % 360 + 360) % 360;
   
   // Find when Sun was at design longitude
-  const designJd = findSunAtLongitude(designSunLon, jd, -1);
+  const designJd = findSunAtLongitude(designSunLon, jd);
   
   const result = {
     birthJulianDay: jd,
